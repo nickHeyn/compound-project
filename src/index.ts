@@ -1,4 +1,10 @@
 import express from 'express';
+import { parseInputData } from './dataParser';
+
+const dataContainer = parseInputData();
+dataContainer.printData();
+
+
 
 const app = express();
 
