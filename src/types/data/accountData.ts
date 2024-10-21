@@ -1,12 +1,12 @@
-export interface Account {
+export interface AccountData {
     readonly name: string;
     readonly number: string;
     readonly repId: string;
     readonly custodianName: string;
-    readonly holdings: Array<AccountHolding>;
+    readonly holdings: Array<AccountHoldingData>;
 }
 
-export interface AccountHolding {
+export interface AccountHoldingData {
     readonly ticker: string;
     readonly unitCount: number;
     readonly unitPrice: number;

@@ -1,0 +1,37 @@
+{
+    "advisors": [
+        {
+            "id": "1",
+            "name": "Test Advisor",
+            "custodians": [
+                {
+                    "name": "Schwab",
+                    "repId": "1271"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Test Account",
+            "number": "number",
+            "repId": "123",
+            "holdings": [
+                {
+                    "ticker": "TEST",
+                    "units": 10,
+                    "unit_price": 20
+                }
+            ],
+            "custodian": "Schwab"
+        }
+    ],
+    "securities": [
+        {
+            "id": "12345",
+            "ticker": "TEST",
+            "name": "Test Fund",
+            "dateAdded": "Today"
+        }
+    ]
+}

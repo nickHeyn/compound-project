@@ -1,4 +1,4 @@
-export interface Security {
+export interface SecurityData {
     readonly id: string;
     readonly ticker: string;
     readonly name: string;

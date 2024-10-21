@@ -1,25 +1,51 @@
-import { Account } from "./dataTypes/account";
-import { Advisor } from "./dataTypes/advisor";
-import { Security } from "./dataTypes/security";
+import { AccountData } from "./types/data/accountData";
+import { AdvisorData } from "./types/data/advisorData";
+import { SecurityData } from "./types/data/securityData";
 
 /**
  * This class contains the data for the advisors, accounts, and securities and provides functions to access them.
  */
 export class DataContainer {
-    private advisorMap: Map<string, Advisor>;
-    private accountMap: Map<string, Account>;
-    private securityMap: Map<string, Security>;
+    private advisorMap: Map<string, AdvisorData>;
+    private accountMap: Map<string, AccountData>;
+    private securityMap: Map<string, SecurityData>;
 
-    constructor(advisorMap: Map<string, Advisor>, accountMap: Map<string, Account>, securityMap: Map<string, Security>) {
+    constructor(advisorMap: Map<string, AdvisorData>, accountMap: Map<string, AccountData>, securityMap: Map<string, SecurityData>) {
         this.advisorMap = advisorMap;
         this.accountMap = accountMap;
         this.securityMap = securityMap;
     }
 
+    public getAdvisorById(id: string) {
+        return this.advisorMap.get(id);
+    }
+
+    public getAdvisorMap() {
+        return this.advisorMap;
+    }
+
+    public getAccountById(id: string) {
+        return this.accountMap.get(id);
+    }
+
+    public getAccountMap() {
+        return this.accountMap;
+    }
+
+    public getSecurityById(id: string) {
+        return this.securityMap.get(id);
+    }
+
+    public getSecurityMap() {
+        return this.securityMap;
+    }
+
+
+
     /**
      * Prints the contained data to the console.
      */
-    printData() {
+    public printData() {
         // print advisor data
         console.log("Advisor Data: ");
         this.advisorMap.forEach(entry => {
