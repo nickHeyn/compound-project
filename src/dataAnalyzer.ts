@@ -1,7 +1,8 @@
 import { DataContainer } from "./dataContainer";
+import { AdvisorData } from "./types/data/advisorData";
 import { AdvisorInfoAndAssetCount } from "./types/response/topAdvisorsForCustodianAnalysis";
 
-class DataAnalyzer {
+export class DataAnalyzer {
     private dataContainer: DataContainer;
 
     constructor(dataContainer: DataContainer) {
@@ -9,13 +10,14 @@ class DataAnalyzer {
     }
 
     /**
-     * Gets the total assets under management (AUM) for all advisors and accounts being managed
+     * Gets the total assets under management (AUM) for all advisors and accounts being managed.
+     * @returns The total assets under management and the total value of those assets.
      */
     public calculateTotalAum() {
         // first get all the accounts the advisors are managing
-        const repIdList: Array<string> = []
+        let repIdList: Array<string> = []
         for(const advisor of this.dataContainer.getAllAdvisors()) {
-            repIdList.concat(advisor.custodians.map(custodian => custodian.repId));
+            repIdList = repIdList.concat(advisor.custodians.map(custodian => custodian.repId));
         }
 
         let totalUnits = 0;
@@ -38,6 +40,8 @@ class DataAnalyzer {
             totalAssetUnits: totalUnits
         };
     }
+
+    // TODO: Create a function to calculate the top securities across all accounts 
 
     /**
      * Calculates the top securities held for a specific account.
@@ -68,10 +72,11 @@ class DataAnalyzer {
             }
 
             // convert map to a list sorted by num units held
-            const securitiesHeldList = Array.from(securitiesHeldMap.values()).sort((sec1, sec2) => sec1.numUnitsHeld > sec2.numUnitsHeld ? 1 : 0);
+            const securitiesHeldList = Array.from(securitiesHeldMap.values()).sort((sec1, sec2) => sec2.numUnitsHeld - sec1.numUnitsHeld);
 
             return securitiesHeldList.slice(0, Math.min(numberOfSecuritiesToReturn, securitiesHeldList.length));
         }
+        return [];
     }
     
     /**
@@ -82,10 +87,12 @@ class DataAnalyzer {
      */
     public calculateTopAdvisorsForAllCustodians(numAdvisorsToReturn: number) {
         const custodianToAdvisorListMap = new Map();
-        for(const advisor of this.dataContainer.getAllAdvisors()) {
+        const allAdvisors = Array.from(this.dataContainer.getAllAdvisors());
+        const custodianSet = this.getCustodianSet(allAdvisors);
 
+        for(const advisor of allAdvisors) {
             // first capture total assets per custodian for each advisor
-            const advisorCustodianMap = new Map();
+            const custodianToAssetCountMap = this.initCustodianToAssetCountMap(custodianSet);
             for(const custodian of advisor.custodians) {
                 const account = this.dataContainer.getAccountById(custodian.repId);
                 
@@ -95,14 +102,14 @@ class DataAnalyzer {
                 }
 
                 let assetSumForCustodian = totalAssets;
-                if(advisorCustodianMap.has(custodian.name)) {
-                    assetSumForCustodian += advisorCustodianMap.get(custodian.name);
+                if(custodianToAssetCountMap.has(custodian.name)) {
+                    assetSumForCustodian += custodianToAssetCountMap.get(custodian.name);
                 }
-                advisorCustodianMap.set(custodian.name, assetSumForCustodian);
+                custodianToAssetCountMap.set(custodian.name, assetSumForCustodian);
             }
 
             // now insert the advisors holdings per custodian into the broader map for all advisors, being sure to insert in order of total assets for the custodian.
-            for(const [custodianName, totalAssets] of advisorCustodianMap.entries()) {
+            for(const [custodianName, totalAssets] of custodianToAssetCountMap.entries()) {
                 if(custodianToAdvisorListMap.has(custodianName)) {
                     const advisorList = custodianToAdvisorListMap.get(custodianName);
                     this.insertInOrder(advisorList, {
@@ -121,7 +128,7 @@ class DataAnalyzer {
             }
         }
 
-        // finally, go through each custodian in the broader map and return the top x advisors with holdings in said custodian
+        // finally, go through each custodian in the broader map and return the top advisors with holdings in said custodian
         const result = [];
         for(const [custodianName, advisorList] of custodianToAdvisorListMap) {
             result.push({
@@ -131,6 +138,19 @@ class DataAnalyzer {
         }
 
         return result;
+    }
+
+    /**
+     * Initializes the custodian map so that it has keys for every custodian in the provided set and initializes the values to 0
+     * @param custodianSet - A set of custodian names
+     * @returns A map with every custodian name as keys and all values 0
+     */
+    private initCustodianToAssetCountMap(custodianSet: Set<string>) {
+        const custodianMap = new Map();
+        for(const custodianName of custodianSet) {
+            custodianMap.set(custodianName, 0);
+        }
+        return custodianMap;
     }
 
     /**
@@ -149,4 +169,21 @@ class DataAnalyzer {
         }
         advisorList.push(advisorToInsert);
     }
+
+    /**
+     * Gets the set of custodians from the advisor data list
+     * @param advisorDataList - List of advisors to get custodians from
+     * @returns - The set of all custodians
+     */
+    private getCustodianSet(advisorDataList: Array<AdvisorData>) {
+        const custodianSet = new Set<string>();
+        for(const advisorData of advisorDataList) {
+            for(const custodian of advisorData.custodians) {
+                custodianSet.add(custodian.name);
+            }
+        }
+        return custodianSet;
+    }
+
+
 }

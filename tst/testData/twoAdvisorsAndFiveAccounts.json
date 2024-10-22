@@ -1,0 +1,154 @@
+{
+    "advisors": [
+        {
+            "id": "1",
+            "name": "Test Advisor 1",
+            "custodians": [
+                {
+                    "name": "Schwab",
+                    "repId": "123"
+                },
+                {
+                    "name": "Fidelity",
+                    "repId": "456"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "name": "Test Advisor 2",
+            "custodians": [
+                {
+                    "name": "Schwab",
+                    "repId": "131415"
+                },
+                {
+                    "name": "Morgan Stanley",
+                    "repId": "789"
+                },
+                {
+                    "name": "Morgan Stanley",
+                    "repId": "101112"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Test Account 1",
+            "number": "number1",
+            "repId": "123",
+            "holdings": [
+                {
+                    "ticker": "TESTC",
+                    "units": 10,
+                    "unit_price": 15.5
+                }
+            ],
+            "custodian": "Schwab"
+        },
+        {
+            "name": "Test Account 2",
+            "number": "number2",
+            "repId": "456",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 400,
+                    "unit_price": 70
+                },
+                {
+                    "ticker": "TESTC",
+                    "units": 5,
+                    "unit_price": 5
+                }
+            ],
+            "custodian": "Fidelity"
+        },
+        {
+            "name": "Test Account 3",
+            "number": "number3",
+            "repId": "789",
+            "holdings": [
+                {
+                    "ticker": "TESTB",
+                    "units": 1,
+                    "unit_price": 13
+                },
+                {
+                    "ticker": "TESTD",
+                    "units": 205,
+                    "unit_price": 5
+                }
+            ],
+            "custodian": "Morgan Stanley"
+        },
+        {
+            "name": "Test Account 4",
+            "number": "number4",
+            "repId": "101112",
+            "holdings": [
+                {
+                    "ticker": "TESTD",
+                    "units": 9,
+                    "unit_price": 10
+                },
+                {
+                    "ticker": "TESTC",
+                    "units": 50,
+                    "unit_price": 1
+                },
+                {
+                    "ticker": "TESTA",
+                    "units": 10,
+                    "unit_price": 20
+                },
+                {
+                    "ticker": "TESTB",
+                    "units": 13,
+                    "unit_price": 19
+                }
+            ],
+            "custodian": "Morgan Stanley"
+        },
+        {
+            "name": "Test Account 5",
+            "number": "number5",
+            "repId": "131415",
+            "holdings": [
+                {
+                    "ticker": "TESTD",
+                    "units": 3,
+                    "unit_price": 3.7
+                }
+            ],
+            "custodian": "Schwab"
+        }
+    ],
+    "securities": [
+        {
+            "id": "a",
+            "ticker": "TESTA",
+            "name": "Test Fund A",
+            "dateAdded": "2001-06-07"
+        },
+        {
+            "id": "b",
+            "ticker": "TESTB",
+            "name": "Test Fund B",
+            "dateAdded": "2012-01-01"
+        },
+        {
+            "id": "c",
+            "ticker": "TESTC",
+            "name": "Test Fund C",
+            "dateAdded": "1996-07-19"
+        },
+        {
+            "id": "d",
+            "ticker": "TESTD",
+            "name": "Test Fund D",
+            "dateAdded": "2023-10-31"
+        }
+    ]
+}

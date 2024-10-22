@@ -1,0 +1,189 @@
+{
+    "advisors": [
+        {
+            "id": "1",
+            "name": "Test Advisor 1",
+            "custodians": [
+                {
+                    "name": "Schwab",
+                    "repId": "222"
+                },
+                {
+                    "name": "Fidelity",
+                    "repId": "444"
+                },
+                {
+                    "name": "Morgan Stanley",
+                    "repId": "555"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "name": "Test Advisor 2",
+            "custodians": [
+                {
+                    "name": "Fidelity",
+                    "repId": "111"
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "name": "Test Advisor 3",
+            "custodians": [
+                {
+                    "name": "Schwab",
+                    "repId": "333"
+                },
+                {
+                    "name": "Morgan Stanley",
+                    "repId": "888"
+                },
+                {
+                    "name": "Morgan Stanley",
+                    "repId": "777"
+                },
+                {
+                    "name": "Fidelity",
+                    "repId": "666"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Test Account 1",
+            "number": "number1",
+            "repId": "111",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 2000,
+                    "unit_price": 520
+                },
+                {
+                    "ticker": "TESTB",
+                    "units": 500,
+                    "unit_price": 10
+                }
+            ],
+            "custodian": "Fidelity"
+        },
+        {
+            "name": "Test Account 2",
+            "number": "number2",
+            "repId": "222",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 400,
+                    "unit_price": 70
+                },
+                {
+                    "ticker": "TESTC",
+                    "units": 5,
+                    "unit_price": 5
+                }
+            ],
+            "custodian": "Schwab"
+        },
+        {
+            "name": "Test Account 3",
+            "number": "number3",
+            "repId": "333",
+            "holdings": [
+                {
+                    "ticker": "TESTB",
+                    "units": 60,
+                    "unit_price": 90
+                }
+            ],
+            "custodian": "Schwab"
+        },
+        {
+            "name": "Test Account 4",
+            "number": "number4",
+            "repId": "444",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 9,
+                    "unit_price": 10
+                },
+                {
+                    "ticker": "TESTB",
+                    "units": 500,
+                    "unit_price": 1
+                }
+            ],
+            "custodian": "Fidelity"
+        },
+        {
+            "name": "Test Account 5",
+            "number": "number5",
+            "repId": "555",
+            "holdings": [
+                {
+                    "ticker": "TESTB",
+                    "units": 1200,
+                    "unit_price": 3.7
+                }
+            ],
+            "custodian": "Morgan Stanley"
+        },
+        {
+            "name": "Test Account 6",
+            "number": "number6",
+            "repId": "666",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 3,
+                    "unit_price": 3.7
+                }
+            ],
+            "custodian": "Fidelity"
+        },
+        {
+            "name": "Test Account 7",
+            "number": "number7",
+            "repId": "777",
+            "holdings": [
+                {
+                    "ticker": "TESTA",
+                    "units": 1000,
+                    "unit_price": 102.4
+                }
+            ],
+            "custodian": "Morgan Stanley"
+        },
+        {
+            "name": "Test Account 8",
+            "number": "number8",
+            "repId": "888",
+            "holdings": [
+                {
+                    "ticker": "TESTB",
+                    "units": 400,
+                    "unit_price": 20.50
+                }
+            ],
+            "custodian": "Morgan Stanley"
+        }
+    ],
+    "securities": [
+        {
+            "id": "a",
+            "ticker": "TESTA",
+            "name": "Test Fund A",
+            "dateAdded": "2001-06-07"
+        },
+        {
+            "id": "b",
+            "ticker": "TESTB",
+            "name": "Test Fund B",
+            "dateAdded": "2012-01-01"
+        }
+    ]
+}
