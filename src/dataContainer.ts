@@ -24,6 +24,10 @@ export class DataContainer {
         return this.advisorMap;
     }
 
+    public getAllAdvisors() {
+        return this.advisorMap.values();
+    }
+
     public getAccountById(id: string) {
         return this.accountMap.get(id);
     }
@@ -32,15 +36,21 @@ export class DataContainer {
         return this.accountMap;
     }
 
-    public getSecurityById(id: string) {
-        return this.securityMap.get(id);
+    public getAllAccounts() {
+        return this.accountMap.values();
+    }
+
+    public getSecurityByTicker(ticker: string) {
+        return this.securityMap.get(ticker);
     }
 
     public getSecurityMap() {
         return this.securityMap;
     }
 
-
+    public getAllSecurities() {
+        return this.securityMap.values();
+    }
 
     /**
      * Prints the contained data to the console.

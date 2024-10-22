@@ -55,7 +55,7 @@ export const parseInputData = (rawData: any = inputData): DataContainer => {
             ticker: securityData.ticker,
             dateAdded: securityData.dateAdded
         }
-        securityMap.set(security.id, security)
+        securityMap.set(security.ticker, security)
     }
 
     return new DataContainer(advisorMap, accountMap, securityMap);

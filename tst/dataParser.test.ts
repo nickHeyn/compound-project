@@ -29,7 +29,7 @@ describe("Data Parser", () => {
 
         // validate security
         expect(dataContainer.getSecurityMap().size).toBe(1);
-        const security = dataContainer.getSecurityById("12345");
+        const security = dataContainer.getSecurityByTicker("TEST");
         expect(security?.id).toBe("12345");
         expect(security?.name).toBe("Test Fund");
         expect(security?.ticker).toBe("TEST");
