@@ -27,7 +27,7 @@ describe("Top Securities By Account Analysis", () => {
         const dataAnalyzer = initDataAnalyzer(twoAdvisorsAndFiveAccounts);
         
         const numSecuritiesToReturn = 3;
-        const topSecurities = dataAnalyzer.calculateTopSecuritiesForAccount("101112", numSecuritiesToReturn);
+        const topSecurities = dataAnalyzer.calculateTopSecuritiesForAccount("101112", numSecuritiesToReturn).topSecurities;
 
         expect(topSecurities.length).toBe(numSecuritiesToReturn);
 
@@ -44,7 +44,7 @@ describe("Top Securities By Account Analysis", () => {
     test("calculateTopSecuritiesForAccount should return an empty list for a non-existing account", () => {
         const dataAnalyzer = initDataAnalyzer(twoAdvisorsAndFiveAccounts);
         
-        const topSecurities = dataAnalyzer.calculateTopSecuritiesForAccount("nonExistingAccount", 4);
+        const topSecurities = dataAnalyzer.calculateTopSecuritiesForAccount("nonExistingAccount", 4).topSecurities;
 
         expect(topSecurities.length).toBe(0);
     });
@@ -66,7 +66,7 @@ describe("Top Advisors per Custodian Analysis", () => {
         
         const numAdvisorsToReturn = 3;
         
-        const custodiansAndTopAdvisors = dataAnalyzer.calculateTopAdvisorsForAllCustodians(numAdvisorsToReturn);
+        const custodiansAndTopAdvisors = dataAnalyzer.calculateTopAdvisorsForAllCustodians(numAdvisorsToReturn).custodianList;
 
         expect(custodiansAndTopAdvisors.length).toBe(numAdvisorsToReturn);
 

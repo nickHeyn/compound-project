@@ -13,7 +13,7 @@ describe("Data Parser", () => {
         expect(advisor?.name).toBe("Test Advisor");
         expect(advisor?.custodians.length).toBe(1);
         expect(advisor?.custodians[0].name).toBe("Schwab");
-        expect(advisor?.custodians[0].repId).toBe("1271");
+        expect(advisor?.custodians[0].repId).toBe("123");
 
         // validate account
         expect(dataContainer.getAccountMap().size).toBe(1);

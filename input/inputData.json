@@ -10,7 +10,7 @@
                 },
                 {
                     "name": "Fidelity",
-                    "repId": "8996"
+                    "repId": "9883"
                 }
             ]
         }
@@ -22,7 +22,7 @@
             "repId": "9883",
             "holdings": [
                 {
-                    "ticker": "HEMCX",
+                    "ticker": "ICKAX",
                     "units": 77,
                     "unit_price": 398.63
                 }

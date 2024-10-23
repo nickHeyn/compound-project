@@ -47,7 +47,8 @@ export const parseInputData = (rawData: any = inputData): DataContainer => {
     }
 
     // parse securities
-    const securityMap = new Map();
+    const securityTickerMap = new Map();
+    const securityIdMap = new Map();
     for(const securityData of rawData.securities) {
         const security: SecurityData = {
             name: securityData.name,
@@ -55,8 +56,9 @@ export const parseInputData = (rawData: any = inputData): DataContainer => {
             ticker: securityData.ticker,
             dateAdded: securityData.dateAdded
         }
-        securityMap.set(security.ticker, security)
+        securityTickerMap.set(security.ticker, security)
+        securityIdMap.set(security.id, security);
     }
 
-    return new DataContainer(advisorMap, accountMap, securityMap);
+    return new DataContainer(advisorMap, accountMap, securityTickerMap, securityIdMap);
 }

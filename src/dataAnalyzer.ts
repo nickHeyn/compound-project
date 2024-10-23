@@ -1,6 +1,8 @@
 import { DataContainer } from "./dataContainer";
 import { AdvisorData } from "./types/data/advisorData";
-import { AdvisorInfoAndAssetCount } from "./types/response/topAdvisorsForCustodianAnalysis";
+import { AumAnalysis } from "./types/response/aumAnalysis";
+import { AdvisorInfoAndAssetCount, TopAdvisorsForCustodianAnalysis } from "./types/response/topAdvisorsForCustodianAnalysis";
+import { TopSecuritiesAnalysis } from "./types/response/topSecuritiesAnalysis";
 
 export class DataAnalyzer {
     private dataContainer: DataContainer;
@@ -13,7 +15,7 @@ export class DataAnalyzer {
      * Gets the total assets under management (AUM) for all advisors and accounts being managed.
      * @returns The total assets under management and the total value of those assets.
      */
-    public calculateTotalAum() {
+    public calculateTotalAum(): AumAnalysis {
         // first get all the accounts the advisors are managing
         let repIdList: Array<string> = []
         for(const advisor of this.dataContainer.getAllAdvisors()) {
@@ -42,6 +44,9 @@ export class DataAnalyzer {
     }
 
     // TODO: Create a function to calculate the top securities across all accounts 
+    public calculateTopSecuritiesForAllAccounts() {
+        
+    }
 
     /**
      * Calculates the top securities held for a specific account.
@@ -49,7 +54,7 @@ export class DataAnalyzer {
      * @param numberOfSecuritiesToReturn - The number of securities to get
      * @returns A list containing the top securities held for the specified account.
      */
-    public calculateTopSecuritiesForAccount(repId: string, numberOfSecuritiesToReturn: number) {
+    public calculateTopSecuritiesForAccount(repId: string, numberOfSecuritiesToReturn: number): TopSecuritiesAnalysis {
         const account = this.dataContainer.getAccountById(repId);
         const securitiesHeldMap = new Map();
         if(account) {
@@ -74,9 +79,14 @@ export class DataAnalyzer {
             // convert map to a list sorted by num units held
             const securitiesHeldList = Array.from(securitiesHeldMap.values()).sort((sec1, sec2) => sec2.numUnitsHeld - sec1.numUnitsHeld);
 
-            return securitiesHeldList.slice(0, Math.min(numberOfSecuritiesToReturn, securitiesHeldList.length));
+            return {
+                topSecurities: securitiesHeldList.slice(0, Math.min(numberOfSecuritiesToReturn, securitiesHeldList.length))
+            }
         }
-        return [];
+        
+        return {
+            topSecurities: []
+        };
     }
     
     /**
@@ -85,7 +95,7 @@ export class DataAnalyzer {
      * @returns A list CustodianTopAdvisors objects. Each CustodianTopAdvisors object contains the custodian name and an ordered list of the advisors with the most assets
      * in the custodian
      */
-    public calculateTopAdvisorsForAllCustodians(numAdvisorsToReturn: number) {
+    public calculateTopAdvisorsForAllCustodians(numAdvisorsToReturn: number): TopAdvisorsForCustodianAnalysis {
         const custodianToAdvisorListMap = new Map();
         const allAdvisors = Array.from(this.dataContainer.getAllAdvisors());
         const custodianSet = this.getCustodianSet(allAdvisors);
@@ -129,15 +139,17 @@ export class DataAnalyzer {
         }
 
         // finally, go through each custodian in the broader map and return the top advisors with holdings in said custodian
-        const result = [];
+        const custodianList = [];
         for(const [custodianName, advisorList] of custodianToAdvisorListMap) {
-            result.push({
+            custodianList.push({
                 custodianName,
                 topAdvisors: advisorList.slice(0, Math.min(advisorList.length, numAdvisorsToReturn)),
             });
         }
 
-        return result;
+        return {
+            custodianList
+        }
     }
 
     /**
