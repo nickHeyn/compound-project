@@ -13,6 +13,10 @@ app.get('/analysis/aum', (req, res) => {
     res.send(dataAnalyzer.calculateTotalAum());
 });
 
+app.get('/analysis/securities/:count', (req, res) => {
+    res.send(dataAnalyzer.calculateTopSecuritiesForAllAccounts(Number(req.params.count)));
+});
+
 app.get('/analysis/securities/:accountId/:count', (req, res) => {
     res.send(dataAnalyzer.calculateTopSecuritiesForAccount(req.params.accountId, Number(req.params.count)));
 });

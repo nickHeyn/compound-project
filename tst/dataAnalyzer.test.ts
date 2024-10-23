@@ -50,6 +50,26 @@ describe("Top Securities By Account Analysis", () => {
     });
 });
 
+describe("Top Securities For All Account Analysis", () => {
+    test("calculateTopSecuritiesForAllAccounts should return the top securities held for all accounts in an ordered list", () => {
+        const dataAnalyzer = initDataAnalyzer(twoAdvisorsAndFiveAccounts);
+        
+        const numSecuritiesToReturn = 3;
+        const topSecurities = dataAnalyzer.calculateTopSecuritiesForAllAccounts(numSecuritiesToReturn).topSecurities;
+
+        expect(topSecurities.length).toBe(numSecuritiesToReturn);
+
+        expect(topSecurities[0].ticker).toBe("TESTA");
+        expect(topSecurities[0].numUnitsHeld).toBe(410);
+
+        expect(topSecurities[1].ticker).toBe("TESTD");
+        expect(topSecurities[1].numUnitsHeld).toBe(217);
+
+        expect(topSecurities[2].ticker).toBe("TESTC");
+        expect(topSecurities[2].numUnitsHeld).toBe(65);
+    });
+});
+
 describe("Top Advisors per Custodian Analysis", () => {
     const getCustodianFromResponse = (custodianName: string, custodiansAndTopAdvisors: Array<CustodianTopAdvisors>) => {
         return custodiansAndTopAdvisors.find((custodianAndAdvisors) => custodianAndAdvisors.custodianName === custodianName);

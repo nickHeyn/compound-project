@@ -1,8 +1,9 @@
 import { DataContainer } from "./dataContainer";
+import { AccountData } from "./types/data/accountData";
 import { AdvisorData } from "./types/data/advisorData";
 import { AumAnalysis } from "./types/response/aumAnalysis";
 import { AdvisorInfoAndAssetCount, TopAdvisorsForCustodianAnalysis } from "./types/response/topAdvisorsForCustodianAnalysis";
-import { TopSecuritiesAnalysis } from "./types/response/topSecuritiesAnalysis";
+import { SecurityInfo, TopSecuritiesAnalysis } from "./types/response/topSecuritiesAnalysis";
 
 export class DataAnalyzer {
     private dataContainer: DataContainer;
@@ -43,9 +44,22 @@ export class DataAnalyzer {
         };
     }
 
-    // TODO: Create a function to calculate the top securities across all accounts 
-    public calculateTopSecuritiesForAllAccounts() {
-        
+    /**
+     * Calculates the top securities held across all accounts in the data collection
+     * @param numberOfSecuritiesToReturn - The number of securities to return
+     * @returns A list of the top securities held as well as their unit count
+     */
+    public calculateTopSecuritiesForAllAccounts(numberOfSecuritiesToReturn: number) {
+        const allAccountsList = this.dataContainer.getAllAccounts();
+
+        const securitiesHeldMap = new Map();
+        for(const account of allAccountsList) {
+            this.getSecurtiesHeldOnAccount(account, securitiesHeldMap);
+        }
+
+        return {
+            topSecurities: this.convertSecuritiesHeldMapToOrderedList(securitiesHeldMap, numberOfSecuritiesToReturn)
+        }
     }
 
     /**
@@ -58,35 +72,54 @@ export class DataAnalyzer {
         const account = this.dataContainer.getAccountById(repId);
         const securitiesHeldMap = new Map();
         if(account) {
-            for(const holding of account.holdings) {
-                const ticker = holding.ticker;
-
-                const security = this.dataContainer.getSecurityByTicker(ticker);
-                if(security) {
-                    let numUnitsHeld = holding.unitCount;
-                    if(securitiesHeldMap.has(ticker)) {
-                        numUnitsHeld += securitiesHeldMap.get(ticker).numUnitsHeld;
-                    }
-                    securitiesHeldMap.set(ticker, {
-                        securityName: security.name,
-                        ticker: security.ticker,
-                        id: security.id,
-                        numUnitsHeld: numUnitsHeld
-                    });
-                }
-            }
-
-            // convert map to a list sorted by num units held
-            const securitiesHeldList = Array.from(securitiesHeldMap.values()).sort((sec1, sec2) => sec2.numUnitsHeld - sec1.numUnitsHeld);
+            this.getSecurtiesHeldOnAccount(account, securitiesHeldMap);
 
             return {
-                topSecurities: securitiesHeldList.slice(0, Math.min(numberOfSecuritiesToReturn, securitiesHeldList.length))
+                topSecurities: this.convertSecuritiesHeldMapToOrderedList(securitiesHeldMap, numberOfSecuritiesToReturn)
             }
         }
         
         return {
             topSecurities: []
         };
+    }
+
+    /**
+     * Goes through all holdings in an account and adds the unit counts to the provided map that tracks the number of securities held
+     * @param account - Account to get all holdings of
+     * @param securitiesHeldMap The map that will be updated with the count of securities held in the account
+     */
+    private getSecurtiesHeldOnAccount(account: AccountData, securitiesHeldMap: Map<string, SecurityInfo>) {
+        for(const holding of account.holdings) {
+            const ticker = holding.ticker;
+
+            const security = this.dataContainer.getSecurityByTicker(ticker);
+            if(security) {
+                let numUnitsHeld = holding.unitCount;
+                if(securitiesHeldMap.has(ticker)) {
+                    numUnitsHeld += (securitiesHeldMap.get(ticker)?.numUnitsHeld ?? 0);
+                }
+
+                securitiesHeldMap.set(ticker, {
+                    securityName: security.name,
+                    ticker: security.ticker,
+                    id: security.id,
+                    numUnitsHeld: numUnitsHeld
+                });
+            }
+        }
+    }
+
+    /**
+     * Converts a map of security info into an ordered list that is ordered from largest to smallest in terms of units held. Is also limited by the provided
+     * number of securities to return
+     * @param securitiesHeldMap - The map to convert into an ordered list
+     * @param numberOfSecuritiesToReturn - The max number of securities that should be included in the list
+     * @returns An ordered list of security info
+     */
+    private convertSecuritiesHeldMapToOrderedList(securitiesHeldMap: Map<string, SecurityInfo>, numberOfSecuritiesToReturn: number) {
+        const securitiesHeldList = Array.from(securitiesHeldMap.values()).sort((sec1, sec2) => sec2.numUnitsHeld - sec1.numUnitsHeld);
+        return securitiesHeldList.slice(0, Math.min(numberOfSecuritiesToReturn, securitiesHeldList.length));
     }
     
     /**
