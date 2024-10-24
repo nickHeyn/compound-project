@@ -8,7 +8,9 @@ const dataAnalyzer = new DataAnalyzer(dataContainer);
 const app = express();
 
 
+// TODO: Add endpoints for modifying data
 // TODO: Add error handling for bad requests
+// TODO: Add additional console logging for debugging errors
 app.get('/analysis/aum', (req, res) => {
     res.send(dataAnalyzer.calculateTotalAum());
 });
@@ -17,8 +19,8 @@ app.get('/analysis/securities/:count', (req, res) => {
     res.send(dataAnalyzer.calculateTopSecuritiesForAllAccounts(Number(req.params.count)));
 });
 
-app.get('/analysis/securities/:accountId/:count', (req, res) => {
-    res.send(dataAnalyzer.calculateTopSecuritiesForAccount(req.params.accountId, Number(req.params.count)));
+app.get('/analysis/securities/:repId/:count', (req, res) => {
+    res.send(dataAnalyzer.calculateTopSecuritiesForAccount(req.params.repId, Number(req.params.count)));
 });
 
 app.get('/analysis/custodians/:count', (req, res) => {

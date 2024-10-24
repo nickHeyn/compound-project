@@ -5,6 +5,9 @@ import { AumAnalysis } from "./types/response/aumAnalysis";
 import { AdvisorInfoAndAssetCount, TopAdvisorsForCustodianAnalysis } from "./types/response/topAdvisorsForCustodianAnalysis";
 import { SecurityInfo, TopSecuritiesAnalysis } from "./types/response/topSecuritiesAnalysis";
 
+/**
+ * This class is used to analyze the advisor, account, and security data and provide important statistics
+ */
 export class DataAnalyzer {
     private dataContainer: DataContainer;
 

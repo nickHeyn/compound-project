@@ -7,6 +7,7 @@ export interface AccountData {
 }
 
 export interface AccountHoldingData {
+    // TODO: Include the security ID in the AccountHoldingData and use that as the security key
     readonly ticker: string;
     readonly unitCount: number;
     readonly unitPrice: number;
